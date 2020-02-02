@@ -1,5 +1,5 @@
-# Version 1.0 - 01.02.2020
-# splittscheid.de
+# Version 1.01 - 02.02.2020
+# https://github.com/splitti/phoniebox_rsync
 # This script syncs Phoniebox-Folder to a Remote Server with rsync
 
 ######################################################################################
@@ -36,7 +36,7 @@ function sync_data() {
         #$2 = Remote Folder
         #$3 = remote_server
         #$4 = User
-		echo -e "  → Local Sync Folder:     ${CYAN}$1${NOCOLOR}"
+	echo -e "  → Local Sync Folder:     ${CYAN}$1${NOCOLOR}"
         echo -e "  → Remote Sync Folder:    ${CYAN}$2${NOCOLOR}"
         echo -e ""
         echo -e "  → Sync Direction:        ${CYAN}$3${NOCOLOR} --> local Pi"
@@ -48,6 +48,8 @@ function sync_data() {
                 echo -e "${GREEN}          Done${NOCOLOR}"
         else
                 echo -e "${YELLOW}          Skipped - Folder does not exist${NOCOLOR}"
+		ssh -q ${4}@${3} mkdir -p $2 > /dev/null
+		echo -e "  → Remote Folder/s:       ${GREEN}Created${NOCOLOR}"
         fi
         echo -e ""
         echo -e "  → Sync Direction:        local Pi --> ${CYAN}$3${NOCOLOR}"
