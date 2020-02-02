@@ -73,9 +73,9 @@ else
 fi
 
 
-echo -e "  → Scan Music Libary:     "
-sudo service mopidy stop > /dev/null
-sudo mopidyctl local scan  > /dev/null
-sudo service mopidy start  > /dev/null
+echo -e -n "  → Scan Music Libary:     "
+sudo service mopidy stop > /dev/null 2>&1
+sudo mopidyctl local scan  > /dev/null 2>&1
+sudo service mopidy start  > /dev/null 2>&1
 echo -e "${GREEN}Done${NOCOLOR}"
 echo -e "───────────────────────────────────────H─A─V─E───F─U─N─────────────────────────────────────────"
