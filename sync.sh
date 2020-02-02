@@ -71,3 +71,11 @@ else
         echo -e "  → ${YELLOW}>>> Skipping Sync Progress <<<${NOCOLOR}"
         echo -e "───────────────────────────────────────────────────────────────────────────────────────────────"
 fi
+
+
+echo -e "  → Scan Music Libary:     "
+sudo service mopidy stop > /dev/null
+sudo mopidyctl local scan  > /dev/null
+sudo service mopidy start  > /dev/null
+echo -e "${GREEN}Done${NOCOLOR}"
+echo -e "───────────────────────────────────────H─A─V─E───F─U─N─────────────────────────────────────────"
