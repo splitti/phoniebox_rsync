@@ -1,4 +1,4 @@
-# Version 1.01 - 02.02.2020
+# Version 1.02 - 13.03.2020
 # https://github.com/splitti/phoniebox_rsync
 # This script syncs Phoniebox-Folder to a Remote Server with rsync
 
@@ -23,6 +23,8 @@ remote_server="192.168.0.1"
 
 ######################################################################################
 
+# Just writing a temp file for showing it on the OLED Display
+TMP_FILE="/tmp/phoniebox_sync_state.tmp"
 
 # Some Constants, don't change them
 NOCOLOR='\e[0m'
@@ -36,15 +38,16 @@ function sync_data() {
         #$2 = Remote Folder
         #$3 = remote_server
         #$4 = User
+        basename=`basename $2`
 	echo -e "  → Local Sync Folder:     ${CYAN}$1${NOCOLOR}"
         echo -e "  → Remote Sync Folder:    ${CYAN}$2${NOCOLOR}"
         echo -e ""
         echo -e "  → Sync Direction:        ${CYAN}$3${NOCOLOR} --> local Pi"
         echo -e -n "  → Sync-Progess:"
-
+        echo "Syncing ${basename}" >> $TMP_FILE
         if ssh -q ${4}@${3} [[ -d $2 ]]
         then
-                rsync -az ${4}@${3}:${2} ${1}
+                rsync -az --no-o --no-g ${4}@${3}:${2} ${1}
                 echo -e "${GREEN}          Done${NOCOLOR}"
         else
                 echo -e "${YELLOW}          Skipped - Folder does not exist${NOCOLOR}"
@@ -54,7 +57,7 @@ function sync_data() {
         echo -e ""
         echo -e "  → Sync Direction:        local Pi --> ${CYAN}$3${NOCOLOR}"
         echo -e -n "  → Sync-Progess:"
-        rsync -az ${1} ${4}@${3}:${2}
+        rsync -az --no-o --no-g ${1} ${4}@${3}:${2}
         echo -e "${GREEN}          Done${NOCOLOR}"
         echo -e "───────────────────────────────────────────────────────────────────────────────────────────────"
 }
@@ -74,8 +77,11 @@ fi
 
 
 echo -e -n "  → Scan Music Libary:     "
+echo "Scan Music Libary"  >> $TMP_FILE
 sudo service mopidy stop > /dev/null 2>&1
 sudo mopidyctl local scan  > /dev/null 2>&1
 sudo service mopidy start  > /dev/null 2>&1
 echo -e "${GREEN}Done${NOCOLOR}"
 echo -e "───────────────────────────────────────H─A─V─E───F─U─N─────────────────────────────────────────"
+sleep 5
+sudo rm $TMP_FILE
