@@ -1,4 +1,4 @@
-# Version 1.02 - 13.03.2020
+# Version 1.03 - 30.03.2020
 # https://github.com/splitti/phoniebox_rsync
 # This script syncs Phoniebox-Folder to a Remote Server with rsync
 
@@ -59,6 +59,9 @@ function sync_data() {
         echo -e -n "  → Sync-Progess:"
         rsync -az --no-o --no-g ${1} ${4}@${3}:${2}
         echo -e "${GREEN}          Done${NOCOLOR}"
+        echo -e -n"  → Set User-Persmissons:  "
+	sudo chmod -R pi:pi ${1}
+        echo -e "${GREEN}Done${NOCOLOR}"
         echo -e "───────────────────────────────────────────────────────────────────────────────────────────────"
 }
 
