@@ -60,7 +60,7 @@ function sync_data() {
         rsync -az --no-o --no-g ${1} ${4}@${3}:${2}
         echo -e "${GREEN}          Done${NOCOLOR}"
         echo -e -n"  → Set User-Persmissons:  "
-	sudo chmod -R pi:pi ${1}
+	sudo chmown -R pi:pi ${1}
         echo -e "${GREEN}Done${NOCOLOR}"
         echo -e "───────────────────────────────────────────────────────────────────────────────────────────────"
 }
